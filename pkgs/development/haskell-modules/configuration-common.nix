@@ -41,11 +41,6 @@ self: super: {
   ghcjs-base = null;
   ghcjs-prim = null;
 
-  # enable using a local hoogle with extra packagages in the database
-  # nix-shell -p "haskellPackages.hoogleLocal { packages = with haskellPackages; [ mtl lens ]; }"
-  # $ hoogle server
-  hoogleLocal = { packages ? [] }: self.callPackage ./hoogle.nix { inherit packages; };
-
   # Needs older QuickCheck version
   attoparsec-varword = dontCheck super.attoparsec-varword;
 
@@ -82,7 +77,7 @@ self: super: {
       name = "git-annex-${super.git-annex.version}-src";
       url = "git://git-annex.branchable.com/";
       rev = "refs/tags/" + super.git-annex.version;
-      sha256 = "1x2d0gfqxxfygzigm34n0spaxh8bwipxs9317f6c5lkpj916p957";
+      sha256 = "14zzs4j9dpc6rdnna80m0vi7s1awlz0mrmwfh8l4zvglx75avpw5";
       # delete android and Android directories which cause issues on
       # darwin (case insensitive directory). Since we don't need them
       # during the build process, we can delete it to prevent a hash
@@ -2010,7 +2005,7 @@ self: super: {
   ghcup = doJailbreak (super.ghcup.overrideScope (self: super: {
     hspec-golden-aeson = self.hspec-golden-aeson_0_9_0_0;
     optics = self.optics_0_4;
-    streamly = self.streamly_0_8_1_1;
+    streamly = doJailbreak self.streamly_0_8_1_1;
     Cabal = self.Cabal_3_6_2_0;
     libyaml-streamly = markUnbroken super.libyaml-streamly;
   }));
@@ -2031,19 +2026,6 @@ self: super: {
   graphql = assert pkgs.lib.versionOlder self.parser-combinators.version "1.3.0";
     assert pkgs.lib.versionOlder self.hspec.version "2.8.2";
     doJailbreak super.graphql;
-
-  # gtk2hsC2hs fails to build on certain architectures (aarch64, ppc64(le), ...)
-  # with a linker error. As a workaround, we build gtk2hs-buildtools with -O0
-  # as suggested in the GHC thread below. An alternative to this could be to use
-  # -fllvm. I haven't been able to get this to work without linker errors, though.
-  # See also:
-  # * https://gitlab.haskell.org/ghc/ghc/-/issues/17203
-  # * https://github.com/gtk2hs/gtk2hs/issues/305
-  # * https://github.com/gtk2hs/gtk2hs/issues/279
-  gtk2hs-buildtools = appendConfigureFlags
-    (pkgs.lib.optionals (with pkgs.stdenv.hostPlatform; isAarch64 || isPowerPC) [
-      "--ghc-option=-O0"
-    ]) super.gtk2hs-buildtools;
 
   # https://github.com/ajscholl/basic-cpuid/pull/1
   basic-cpuid = appendPatch (pkgs.fetchpatch {
@@ -2253,5 +2235,18 @@ self: super: {
   sdp4text = disableLibraryProfiling super.sdp4text;
   sdp4unordered = disableLibraryProfiling super.sdp4unordered;
   sdp4vector = disableLibraryProfiling super.sdp4vector;
+
+  # Test suite fails to compile
+  # https://github.com/kuribas/mfsolve/issues/8
+  mfsolve = dontCheck super.mfsolve;
+
+  hie-bios = appendPatches [
+    # Accounts for a breaking change in GHC 9.0.2 via CPP
+    (pkgs.fetchpatch {
+      name = "hie-bios-ghc-9.0.2-compat.patch";
+      url = "https://github.com/haskell/hie-bios/commit/da0cb23384cc6e9b393792f8f25a3c174a4edafa.patch";
+      sha256 = "1qj67s93h6pxvdapw1sxy6izwp5y8vjaw67gw3lsnj8gs14fqq4h";
+    })
+  ] super.hie-bios;
 
 } // import ./configuration-tensorflow.nix {inherit pkgs haskellLib;} self super

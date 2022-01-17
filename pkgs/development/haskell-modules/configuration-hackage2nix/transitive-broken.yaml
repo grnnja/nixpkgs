@@ -794,6 +794,7 @@ dont-distribute-packages:
  - condor
  - conductive-hsc3
  - conductive-song
+ - conduit-aeson
  - conduit-vfs-zip
  - confcrypt
  - conferer-provider-dhall
@@ -1185,6 +1186,7 @@ dont-distribute-packages:
  - funnyprint
  - funsat
  - fused-effects-squeal
+ - futhark_0_21_2
  - fwgl-glfw
  - fwgl-javascript
  - fxpak
@@ -1296,6 +1298,7 @@ dont-distribute-packages:
  - graph-rewriting-strategies
  - graph-rewriting-trs
  - graph-rewriting-ww
+ - graph-trace-viz
  - graph-visit
  - graphicsFormats
  - graphicstools
@@ -2157,6 +2160,7 @@ dont-distribute-packages:
  - mpretty
  - mprover
  - mps
+ - mptcp
  - msgpack-aeson
  - msgpack-idl
  - msgpack-rpc
@@ -2251,6 +2255,7 @@ dont-distribute-packages:
  - numhask-histogram
  - numhask-range
  - numhask-test
+ - nyan
  - nymphaea
  - oath
  - obd
@@ -2687,6 +2692,7 @@ dont-distribute-packages:
  - scp-streams
  - scrabble-bot
  - scrapbook
+ - scroll
  - sde-solver
  - seakale-postgresql
  - seakale-tests
@@ -2828,6 +2834,7 @@ dont-distribute-packages:
  - sounddelay
  - soundgen
  - source-code-server
+ - spade
  - sparkle
  - sparrow
  - sparsebit
@@ -3013,6 +3020,7 @@ dont-distribute-packages:
  - toktok
  - too-many-cells
  - top
+ - topaz
  - topkata
  - total-map
  - toxcore
