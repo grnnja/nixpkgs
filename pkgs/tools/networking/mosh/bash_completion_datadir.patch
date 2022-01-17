@@ -1,8 +1,8 @@
 diff --git a/configure.ac b/configure.ac
-index 3ad983d..ff8ff96 100644
+index d4cb1f3..7243910 100644
 --- a/configure.ac
 +++ b/configure.ac
-@@ -476,13 +476,7 @@ AS_IF([echo "$protobuf_LIBS" | grep -q -- -pthread],
+@@ -509,13 +509,7 @@ Check that protoc matches the installed protobuf headers and libraries.])])
  
  # Bash completion needs to ask where it goes if >= 2.0 is installed.
  AS_IF([test "$install_completion" != no],

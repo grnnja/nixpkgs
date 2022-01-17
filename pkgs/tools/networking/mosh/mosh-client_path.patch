@@ -1,5 +1,5 @@
 diff --git a/scripts/mosh.pl b/scripts/mosh.pl
-index 56e96d7..2a2177e 100755
+index f224ef3..4ee722f 100755
 --- a/scripts/mosh.pl
 +++ b/scripts/mosh.pl
 @@ -61,7 +61,7 @@ my $have_ipv6 = eval {
