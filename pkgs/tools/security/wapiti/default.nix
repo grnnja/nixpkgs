@@ -5,40 +5,38 @@
 
 python3.pkgs.buildPythonApplication rec {
   pname = "wapiti";
-  version = "3.0.7";
+  version = "3.1.3";
+  format = "setuptools";
 
   src = fetchFromGitHub {
     owner = "wapiti-scanner";
     repo = pname;
     rev = version;
-    sha256 = "0kya9a2zs1c518z4p34pfjx2sms6843gh3c9qc9zvk4lr4g7hw3x";
+    sha256 = "sha256-alrJVe4Miarkk8BziC8Y333b3swJ4b4oQpP2WAdT2rc=";
   };
-
-  nativeBuildInputs = with python3.pkgs; [
-    pytest-runner
-  ];
 
   propagatedBuildInputs = with python3.pkgs; [
     aiocache
     aiosqlite
     beautifulsoup4
+    brotli
     browser-cookie3
     cryptography
     dnspython
+    httpcore
     httpx
-    httpx-ntlm
-    httpx-socks
+    humanize
+    importlib-metadata
     loguru
     Mako
     markupsafe
-    pysocks
+    mitmproxy
     six
     sqlalchemy
     tld
     yaswfp
-  ] ++ lib.optionals (python3.pythonOlder "3.8") [
-    importlib-metadata
-  ];
+  ] ++ httpx.optional-dependencies.brotli
+  ++ httpx.optional-dependencies.socks;
 
   checkInputs = with python3.pkgs; [
     respx
@@ -48,17 +46,9 @@ python3.pkgs.buildPythonApplication rec {
 
   postPatch = ''
     # Ignore pinned versions
+    sed -i -e "s/==[0-9.]*//;s/>=[0-9.]*//" setup.py
     substituteInPlace setup.py \
-      --replace "httpx-socks[asyncio] == 0.5.1" "httpx-socks[asyncio]" \
-      --replace "markupsafe==1.1.1" "markupsafe" \
-      --replace "importlib_metadata==3.7.2" "importlib_metadata" \
-      --replace "browser-cookie3==0.11.4" "browser-cookie3" \
-      --replace "cryptography==3.3.2" "cryptography" \
-      --replace "httpx[brotli]==0.20.0" "httpx" \
-      --replace "sqlalchemy>=1.4.26" "sqlalchemy" \
-      --replace "aiocache==0.11.1" "aiocache" \
-      --replace "aiosqlite==0.17.0" "aiosqlite" \
-      --replace "dnspython==2.1.0" "dnspython"
+      --replace '"pytest-runner"' ""
     substituteInPlace setup.cfg \
       --replace " --cov --cov-report=xml" ""
   '';
@@ -103,6 +93,7 @@ python3.pkgs.buildPythonApplication rec {
     "test_request_object"
     "test_script"
     "test_ssrf"
+    "test_merge_with_and_without_redirection"
     "test_tag_name_escape"
     "test_timeout"
     "test_title_false_positive"
@@ -110,6 +101,7 @@ python3.pkgs.buildPythonApplication rec {
     "test_true_positive_request_count"
     "test_unregistered_cname"
     "test_url_detection"
+    "test_verify_dns"
     "test_warning"
     "test_whole"
     "test_xss_inside_tag_input"
@@ -121,8 +113,14 @@ python3.pkgs.buildPythonApplication rec {
     # Requires a PHP installation
     "test_timesql"
     "test_cookies"
-    # E           TypeError: Expected bytes or bytes-like object got: <class 'str'>
+    "test_redirect"
+    # TypeError: Expected bytes or bytes-like object got: <class 'str'>
     "test_persister_upload"
+  ];
+
+  disabledTestPaths = [
+    # Requires sslyze which is obsolete and was removed
+    "tests/attack/test_mod_ssl.py"
   ];
 
   pythonImportsCheck = [

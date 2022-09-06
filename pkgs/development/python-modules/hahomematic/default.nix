@@ -1,7 +1,11 @@
 { lib
+, aiohttp
 , buildPythonPackage
 , fetchFromGitHub
-, aiohttp
+, pydevccu
+, pytest-aiohttp
+, pytestCheckHook
+, python-slugify
 , pythonOlder
 , voluptuous
 , websocket-client
@@ -10,24 +14,31 @@
 
 buildPythonPackage rec {
   pname = "hahomematic";
-  version = "0.0.17";
-  format = "setuptools";
+  version = "2022.8.15";
+  format = "pyproject";
 
-  disabled = pythonOlder "3.8";
+  disabled = pythonOlder "3.9";
 
   src = fetchFromGitHub {
     owner = "danielperna84";
     repo = pname;
-    rev = version;
-    sha256 = "sha256-XUlg3zuLJwWJCi2qx1f8eBK3Li94QxXz82G0zEgUztc=";
+    rev = "refs/tags/${version}";
+    sha256 = "sha256-//qtDLU5wXE0ZrkxYI+rOgIu9cLwCbeuMtM57cE1CxA=";
   };
 
   propagatedBuildInputs = [
     aiohttp
+    python-slugify
     voluptuous
   ];
 
-  # Project has no tests
+  checkInputs = [
+    pydevccu
+    pytest-aiohttp
+    pytestCheckHook
+  ];
+
+  # Starting with 0.30 the tests are broken, check with the next major release
   doCheck = false;
 
   pythonImportsCheck = [

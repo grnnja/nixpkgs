@@ -8,13 +8,14 @@
 #
 # See also <nixos/modules/profiles/hardened.nix>
 
-{ lib, version }:
+{ stdenv, lib, version }:
 
 with lib;
 with lib.kernel;
 with (lib.kernel.whenHelpers version);
 
 assert (versionAtLeast version "4.9");
+assert (stdenv.hostPlatform.isx86_64 -> versions.majorMinor version != "5.4");
 
 {
   # Report BUG() conditions and kill the offending process.
@@ -93,4 +94,8 @@ assert (versionAtLeast version "4.9");
 
   # Detect out-of-bound reads/writes and use-after-free
   KFENCE = whenAtLeast "5.12" yes;
+
+  # CONFIG_DEVMEM=n causes these to not exist anymore.
+  STRICT_DEVMEM    = option no;
+  IO_STRICT_DEVMEM = option no;
 }
