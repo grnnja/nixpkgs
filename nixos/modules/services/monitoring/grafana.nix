@@ -628,18 +628,18 @@ in {
         };
         allowedDomains = mkOption {
           description = lib.mdDoc ''
-            To limit access to authenticated users who are members of one or more groups,
-            set allowedGroups to a comma- or space-separated list of group object IDs.
-            You can find object IDs for a specific group on the Azure portal.
+            Limits access to users who belong to specific domains.
+            Separate domains with space or comma.
           '';
           default = "";
           type = types.str;
         };
         allowedGroups = mkOption {
           description = lib.mdDoc ''
-            Limits access to users who belong to specific domains.
-            Separate domains with space or comma.
-          '';
+            To limit access to authenticated users who are members of one or more groups,
+            set allowedGroups to a comma- or space-separated list of group object IDs.
+            You can find object IDs for a specific group on the Azure portal.
+            '';
           default = "";
           type = types.str;
         };
@@ -792,7 +792,7 @@ in {
         SystemCallArchitectures = "native";
         # Upstream grafana is not setting SystemCallFilter for compatibility
         # reasons, see https://github.com/grafana/grafana/pull/40176
-        SystemCallFilter = [ "@system-service" "~@privileged" "~@resources" ];
+        SystemCallFilter = [ "@system-service" "~@privileged" ];
         UMask = "0027";
       };
       preStart = ''
