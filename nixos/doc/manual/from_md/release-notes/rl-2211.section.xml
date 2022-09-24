@@ -125,9 +125,21 @@
       </listitem>
       <listitem>
         <para>
+          Perl has been updated to 5.36, and its core module
+          <literal>HTTP::Tiny</literal> was patched to verify SSL/TLS
+          certificates by default.
+        </para>
+      </listitem>
+      <listitem>
+        <para>
           Cinnamon has been updated to 5.4. While at it, the cinnamon
           module now defaults to blueman as bluetooth manager and
           slick-greeter as lightdm greeter to match upstream.
+        </para>
+      </listitem>
+      <listitem>
+        <para>
+          OpenSSL now defaults to OpenSSL 3, updated from 1.1.1.
         </para>
       </listitem>
       <listitem>
@@ -222,6 +234,13 @@
       </listitem>
       <listitem>
         <para>
+          <link xlink:href="https://git.sr.ht/~migadu/alps">alps</link>,
+          a simple and extensible webmail. Available as
+          <link linkend="opt-services.alps.enable">services.alps</link>.
+        </para>
+      </listitem>
+      <listitem>
+        <para>
           <link xlink:href="https://netbird.io">netbird</link>, a zero
           configuration VPN. Available as
           <link xlink:href="options.html#opt-services.netbird.enable">services.netbird</link>.
@@ -260,9 +279,24 @@
       </listitem>
       <listitem>
         <para>
+          <link xlink:href="https://github.com/L11R/go-autoconfig">go-autoconfig</link>,
+          IMAP/SMTP autodiscover server. Available as
+          <link linkend="opt-services.go-autoconfig.enable">services.go-autoconfig</link>.
+        </para>
+      </listitem>
+      <listitem>
+        <para>
           <link xlink:href="https://www.grafana.com/oss/tempo/">Grafana
           Tempo</link>, a distributed tracing store. Available as
           <link linkend="opt-services.tempo.enable">services.tempo</link>.
+        </para>
+      </listitem>
+      <listitem>
+        <para>
+          <link xlink:href="https://www.ausweisapp.bund.de/">AusweisApp2</link>,
+          the authentication software for the German ID card. Available
+          as
+          <link linkend="opt-programs.ausweisapp.enable">programs.ausweisapp</link>.
         </para>
       </listitem>
       <listitem>
@@ -287,6 +321,13 @@
           a simple blogging platform with ActivityPub support. Available
           as
           <link xlink:href="options.html#opt-services.writefreely.enable">services.writefreely</link>.
+        </para>
+      </listitem>
+      <listitem>
+        <para>
+          <link xlink:href="https://listmonk.app">Listmonk</link>, a
+          self-hosted newsletter manager. Enable using
+          <link xlink:href="options.html#opt-services.listmonk.enable">services.listmonk</link>.
         </para>
       </listitem>
     </itemizedlist>
@@ -443,6 +484,23 @@
       </listitem>
       <listitem>
         <para>
+          dd-agent package removed along with the
+          <literal>services.dd-agent</literal> module, due to the
+          project being deprecated in favor of
+          <literal>datadog-agent</literal>, which is available via the
+          <literal>services.datadog-agent</literal> module.
+        </para>
+      </listitem>
+      <listitem>
+        <para>
+          lemmy module option
+          <literal>services.lemmy.settings.database.createLocally</literal>
+          moved to
+          <literal>services.lemmy.database.createLocally</literal>.
+        </para>
+      </listitem>
+      <listitem>
+        <para>
           virtlyst package and <literal>services.virtlyst</literal>
           module removed, due to lack of maintainers.
         </para>
@@ -455,6 +513,14 @@
           <literal>python3.pkgs.graphite_beacon</literal> and
           <literal>python3.pkgs.influxgraph</literal> packages, have
           been removed due to lack of upstream maintenance.
+        </para>
+      </listitem>
+      <listitem>
+        <para>
+          The <literal>aws</literal> package has been removed due to
+          being abandoned by the upstream. It is recommended to use
+          <literal>awscli</literal> or <literal>awscli2</literal>
+          instead.
         </para>
       </listitem>
       <listitem>
@@ -481,6 +547,12 @@
       </listitem>
       <listitem>
         <para>
+          Neovim can not be configured with plug anymore (still works
+          for vim).
+        </para>
+      </listitem>
+      <listitem>
+        <para>
           <literal>k3s</literal> no longer supports docker as runtime
           due to upstream dropping support.
         </para>
@@ -489,6 +561,15 @@
         <para>
           <literal>k3s</literal> supports <literal>clusterInit</literal>
           option, and it is enabled by default, for servers.
+        </para>
+      </listitem>
+      <listitem>
+        <para>
+          <literal>stylua</literal> no longer accepts
+          <literal>lua52Support</literal> and
+          <literal>luauSupport</literal> overrides, use
+          <literal>features</literal> instead, which defaults to
+          <literal>[ &quot;lua54&quot; &quot;luau&quot; ]</literal>.
         </para>
       </listitem>
     </itemizedlist>
@@ -575,6 +656,25 @@
           memtest86+ was updated from 5.00-coreboot-002 to 6.00-beta2.
           It is now the upstream version from https://www.memtest.org/,
           as coreboot’s fork is no longer available.
+        </para>
+      </listitem>
+      <listitem>
+        <para>
+          Option descriptions, examples, and defaults writting in
+          DocBook are now deprecated. Using CommonMark is preferred and
+          will become the default in a future release.
+        </para>
+      </listitem>
+      <listitem>
+        <para>
+          The
+          <literal>documentation.nixos.options.allowDocBook</literal>
+          option was added to ease the transition to CommonMark option
+          documentation. Setting this option to <literal>false</literal>
+          causes an error for every option included in the manual that
+          uses DocBook documentation; it defaults to
+          <literal>true</literal> to preserve the previous behavior and
+          will be removed once the transition to CommonMark is complete.
         </para>
       </listitem>
       <listitem>

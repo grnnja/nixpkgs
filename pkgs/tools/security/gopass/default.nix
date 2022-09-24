@@ -13,7 +13,7 @@
 
 buildGoModule rec {
   pname = "gopass";
-  version = "1.14.5";
+  version = "1.14.7";
 
   nativeBuildInputs = [ installShellFiles makeWrapper ];
 
@@ -21,10 +21,10 @@ buildGoModule rec {
     owner = "gopasspw";
     repo = pname;
     rev = "v${version}";
-    sha256 = "sha256-MFnenWoInS2vWySa0IxKAFLYF9VHmPaL0eGM27b1wpI=";
+    hash = "sha256-MPKEz+tX07Vi59co8qUEnDmm02WoNdqIEyzkH06He2U=";
   };
 
-  vendorSha256 = "sha256-clJAt/SZCLlLnYf2tmR9nmsbZ0SzMj7x+1Ft9dfEdJ4=";
+  vendorHash = "sha256-qL97uRDvrDEgNsAMfdrs4EKsQPvypZqYbLrV27wXsyM=";
 
   subPackages = [ "." ];
 
@@ -40,9 +40,10 @@ buildGoModule rec {
 
   postInstall = ''
     installManPage gopass.1
-    installShellCompletion --zsh --name _gopass zsh.completion
-    installShellCompletion --bash --name gopass.bash bash.completion
-    installShellCompletion --fish --name gopass.fish fish.completion
+    installShellCompletion --cmd gopass \
+      --zsh zsh.completion \
+      --bash bash.completion \
+      --fish fish.completion
   '' + lib.optionalString passAlias ''
     ln -s $out/bin/gopass $out/bin/pass
   '';
