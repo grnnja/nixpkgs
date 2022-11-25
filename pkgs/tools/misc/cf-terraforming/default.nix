@@ -2,16 +2,16 @@
 
 buildGoModule rec {
   pname = "cf-terraforming";
-  version = "0.8.5";
+  version = "0.8.8";
 
   src = fetchFromGitHub {
     owner = "cloudflare";
     repo = "cf-terraforming";
     rev = "v${version}";
-    sha256 = "1h0apmcddz1c32rlnjs81fjwpxpkz9n2zalwmk05frrgd8zdbixs";
+    sha256 = "sha256-wqpVqf4E5Zz8oKjl7XNjAH05wA++MOL9EnHL/YwsSYw=";
   };
 
-  vendorSha256 = "sha256-a/gUxW4/Kv1BuhXpwibb6u7gO8lBo250ark1kwMLToo=";
+  vendorSha256 = "sha256-tmq55wCQ10WkP+Cp3Ak6mttwL1wxqIAvpn6tsluhI34=";
   ldflags = [ "-X github.com/cloudflare/cf-terraforming/internal/app/cf-terraforming/cmd.versionString=${version}" ];
 
   # The test suite insists on downloading a binary release of Terraform from
